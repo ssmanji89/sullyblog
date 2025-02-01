@@ -13,4 +13,4 @@ Your support through these affiliate links helps maintain and improve the conten
 
 For more detailed information, please review this disclosure and feel free to contact me with any questions.
 
-Thank you for your support.
+(Thank you for your support.)[https://amzn.to/3Q6zxA9]

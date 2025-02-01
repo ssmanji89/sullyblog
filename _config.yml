@@ -1,5 +1,13 @@
-title: Suleman's Blog
-description: A blog powered by ChatGPT generated posts.
+title: "Suleman Shahnawaz Manji Blog"
+description: "Professional Blog, Resources & Affiliate Recommendations powered by ChatGPT."
 baseurl: ""
 url: "https://ssmanji89.github.io"
+<<<<<<< Updated upstream
 
+=======
+theme: minima
+plugins:
+  - jekyll-feed
+exclude:
+  - venv
+>>>>>>> Stashed changes
