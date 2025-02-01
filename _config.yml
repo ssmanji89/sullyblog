@@ -3,5 +3,3 @@ description: A blog powered by ChatGPT generated posts.
 baseurl: ""
 url: "https://ssmanji89.github.io"
 
-plugins:
-  - jekyll-feed
