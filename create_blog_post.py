@@ -1,8 +1,8 @@
 import os
 import sys
 from datetime import datetime
-import openai
 from github import Github
+import openai
 
 # Set your OpenAI API key and GitHub token as environment variables before running the script.
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
@@ -14,14 +14,14 @@ if not GITHUB_TOKEN:
     sys.exit("Error: GITHUB_TOKEN environment variable not set.")
 
 # Replace with your GitHub repository in the format "username/repository"
-REPO_NAME = "username/repository"  # <-- Update this
+REPO_NAME = "ssmanji89/sullyblog"  # <-- Update this
 
 # Configure OpenAI with your API key.
 openai.api_key = OPENAI_API_KEY
 
 def generate_blog_post(topic: str) -> str:
     """
-    Generates a blog post in markdown format using OpenAI's ChatGPT API.
+    Generates a blog post in markdown format using OpenAI's API.
     The generated post includes YAML front matter with the specified author.
     
     Parameters:
@@ -37,19 +37,18 @@ def generate_blog_post(topic: str) -> str:
         "Set the 'author' to 'Suleman Shahnawaz Manji' and the 'date' to today's date. "
         "Ensure the content is formatted in markdown with appropriate headings, bullet points, and code blocks if necessary."
     )
-    
+
     # Call the ChatCompletion endpoint.
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # Change model if needed
+    response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",  # Changed model to a supported one
         messages=[
-            {"role": "system", "content": "You are a professional blog post writer."},
             {"role": "user", "content": prompt}
         ],
         temperature=0.7  # Adjust temperature for creativity vs. determinism
     )
-    
+
     # Extract the generated blog content from the API response.
-    blog_content = response.choices[0].message['content'].strip()
+    blog_content = response.choices[0].message.content.strip()
     return blog_content
 
 def commit_blog_post_to_github(file_path: str, content: str, commit_message: str):
@@ -64,7 +63,7 @@ def commit_blog_post_to_github(file_path: str, content: str, commit_message: str
     # Authenticate with GitHub using PyGithub.
     github_client = Github(GITHUB_TOKEN)
     repo = github_client.get_repo(REPO_NAME)
-    
+
     try:
         # Try to get the file from the repository (if it exists).
         existing_file = repo.get_contents(file_path)
@@ -80,20 +79,20 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python create_blog_post.py '<blog_topic>'")
         sys.exit(1)
-    
+
     # The blog topic is provided as a command-line argument.
     topic = sys.argv[1]
-    
+
     # Generate the blog post content using the ChatGPT API.
     blog_post = generate_blog_post(topic)
-    
+
     # Create a filename using the current date and a sanitized version of the topic.
     date_str = datetime.now().strftime("%Y-%m-%d")
     safe_topic = topic.lower().replace(" ", "-")
     file_name = f"posts/{date_str}-{safe_topic}.md"  # Ensure your repo has a 'posts' directory if needed.
-    
+
     # Define a commit message for GitHub.
     commit_message = f"Add new blog post on '{topic}'"
-    
+
     # Commit the generated blog post to GitHub.
     commit_blog_post_to_github(file_name, blog_post, commit_message)
