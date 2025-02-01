@@ -1,0 +1,7 @@
+title: Suleman's Blog
+description: A blog powered by ChatGPT generated posts.
+baseurl: ""
+url: "https://ssmanji89.github.io"
+theme: minima
+plugins:
+  - jekyll-feed
